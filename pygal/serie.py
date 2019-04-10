@@ -32,6 +32,17 @@ class Serie(object):
         self.__dict__.update(config.__dict__)
         self.metadata = metadata or {}
 
+    def __repr__(self):
+        return f'''
+
+    pygal Series
+
+    {self.values}
+    {self.config}
+    {self.__dict__}
+
+        '''
+
     @cached_property
     def safe_values(self):
         """Property containing all values that are not None"""

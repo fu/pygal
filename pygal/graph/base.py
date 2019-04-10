@@ -32,7 +32,7 @@ from pygal.state import State
 from pygal.svg import Svg
 from pygal.util import compose, ident
 from pygal.view import Box, Margin
-
+import pygal
 
 class BaseGraph(object):
     """Chart internal behaviour related functions"""
@@ -74,7 +74,8 @@ class BaseGraph(object):
     def prepare_values(self, raw, offset=0):
         """Prepare the values to start with sane values"""
         from pygal.graph.map import BaseMap
-        from pygal import Histogram
+        # from pygal import Histogram
+
 
         if self.zero == 0 and isinstance(self, BaseMap):
             self.zero = 1
@@ -138,7 +139,7 @@ class BaseGraph(object):
                     value = raw_value
 
                 # Fix this by doing this in charts class methods
-                if isinstance(self, Histogram):
+                if isinstance(self, pygal.Histogram):
                     if value is None:
                         value = (None, None, None)
                     elif not is_list_like(value):
@@ -163,6 +164,10 @@ class BaseGraph(object):
                     value = self._adapt(value)
 
                 values.append(value)
+
+                if isinstance(self, pygal.MZI):
+                    values += [(value[0], 0), (None, None)]
+
             serie_config = SerieConfig()
             serie_config(
                 **dict((k, v) for k, v in self.state.__dict__.items()
